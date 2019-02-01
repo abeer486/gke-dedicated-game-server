@@ -23,7 +23,8 @@
 # Config vars. Set env vars in the container environment.
 REQ_VARS=("K8S_CLUSTER" 
           "GKE_BASE_INSTANCE_NAME"
-          "GCP_ZONE")
+          "GCP_ZONE"
+          "PROJECT_ID")
 for VAR in "${REQ_VARS[@]}"; do
   if [ -z "${!VAR}" ]; then
     echo -n "ERROR: All of the following environment vars must be set to use "
@@ -34,6 +35,7 @@ for VAR in "${REQ_VARS[@]}"; do
 done
 
 /usr/bin/gcloud config set compute/zone ${GCP_ZONE}
+/usr/bin/gcloud config set project ${PROJECT_ID}
 
 # Pod filters
 GAME="${GAME:-openarena}"

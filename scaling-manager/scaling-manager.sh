@@ -21,7 +21,8 @@
 # Config vars. Set in the container environment.
 REQ_VARS=("K8S_CLUSTER"
           "GKE_BASE_INSTANCE_NAME"
-          "GCP_ZONE")
+          "GCP_ZONE"
+          "PROJECT_ID")
 for VAR in "${REQ_VARS[@]}"; do
   if [ -z "${!VAR}" ]; then
     echo -n "ERROR: All of the following environment vars must "
@@ -50,7 +51,9 @@ MACHINE_TYPE_ONLY="table[no-heading](MACHINE_TYPE)"
 
 # Init. Assumes homogeneous GKE node pool.
 echo "Initializing..."
-/usr/bin/gcloud config set compute/zone ${GCP_ZONE} 
+/usr/bin/gcloud config set compute/zone ${GCP_ZONE}
+/usr/bin/gcloud config set project ${PROJECT_ID}
+
 CPUS_PER_NODE=$(gcloud compute instances list \
   --filter="name~'.*${K8S_CLUSTER}.*'" \
   --limit=1 --format="${MACHINE_TYPE_ONLY}" | cut -d'-' -f3 ) 

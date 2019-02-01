@@ -27,5 +27,5 @@ fi
 for FILE in ${DOCKERFILES}; do
   docker build -f \
     Dockerfile.${FILE} -t ${GCR_REGION}.gcr.io/${PROJECT_ID}/${FILE}:latest .
-  gcloud docker -- push ${GCR_REGION}.gcr.io/${PROJECT_ID}/${FILE}:latest
+  docker push ${GCR_REGION}.gcr.io/${PROJECT_ID}/${FILE}:latest
 done
